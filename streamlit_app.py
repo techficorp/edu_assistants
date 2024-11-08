@@ -60,9 +60,11 @@ def app_screen():
         
         # 로그아웃 버튼
         if st.button("로그아웃", key="logout_button"):
+            # 로그아웃 상태 업데이트 및 화면 리프레시
             st.session_state["logged_in"] = False
             st.session_state["username"] = ""
             st.session_state["name"] = ""
+            st.experimental_rerun()
         
         # 샘플 입력 안내
         st.subheader("샘플 입력 예시 1")
