@@ -1,5 +1,5 @@
 streamlit
-#openai
+openai
 #현재 사용 중인 openai 라이브러리의 버전이 1.0.0 이상으로 업데이트되면서, openai.Model과 같은 일부 인터페이스가 지원되지 않게 되어 발생한 오류입니다. 
-openai==0.28.0
+#openai==0.28.0
 python-dotenv
