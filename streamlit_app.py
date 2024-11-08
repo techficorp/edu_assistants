@@ -28,7 +28,7 @@ def authenticate(username, password):
 # 로그인 화면
 def login_screen():
     st.title("초등학교 서술형 평가 문항 인공지능 자동 채점 서비스 개발 및 적용")
-    st.title("로그인 화면")
+    st.subheader("로그인 화면")
     st.write("인가된 사용자만 접근 가능합니다. 미 인가자는 접속이 불가합니다. 무단 접속 시 법적 조치될 수 있습니다.")
 
     # 사용자 입력 받기
@@ -47,8 +47,6 @@ def login_screen():
             st.session_state["name"] = name
             logging.info(f"{username} 로그인 성공")
             st.success(f"로그인 성공: 환영합니다, {name}님!")
-            # 화면을 새로고침하여 main_app으로 전환
-            st.experimental_rerun()
         else:
             st.error("로그인 실패: 아이디 또는 비밀번호가 올바르지 않습니다.")
             logging.info(f"{username} 로그인 실패")
@@ -63,7 +61,6 @@ def main_app():
         st.session_state["logged_in"] = False
         st.session_state["username"] = ""
         st.session_state["name"] = ""
-        st.experimental_rerun()  # 로그아웃 후 로그인 화면으로 새로고침
 
     # 샘플 입력 안내
     st.subheader("샘플 입력 예시 1")
