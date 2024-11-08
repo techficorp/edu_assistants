@@ -60,7 +60,6 @@ def app_screen():
         
         # 로그아웃 버튼
         if st.button("로그아웃", key="logout_button"):
-            # 로그아웃 상태 업데이트 및 화면 리프레시
             st.session_state["logged_in"] = False
             st.session_state["username"] = ""
             st.session_state["name"] = ""
@@ -116,10 +115,11 @@ def app_screen():
                     role = "학생 응답" if res.role == "user" else "AI 채점"
                     
                     # res.content가 리스트일 경우 처리
-                    message_content = res.content
-                    if isinstance(message_content, list):
-                        message_content = "\n".join(str(item) for item in message_content)
-                    
+                    if isinstance(res.content, list):
+                        message_content = "\n".join(str(item) for item in res.content)
+                    else:
+                        message_content = res.content
+
                     # 원래의 출력 내용을 로그에 남기기
                     logging.info(f"{role}: {message_content}")
                     
