@@ -43,6 +43,8 @@ def get_response(thread_id):
 # Streamlit 웹 페이지 구성
 st.title("OpenAI Assistants API Chatbot")
 st.write("Ask a question and get an answer from the assistant!")
+st.write("초등학교 서술형 평가 문항 인공지능 자동 채점 서비스 개발 및 적용\n")
+
 st.write("샘플입력값\n")
 st.write("[5단원][6국01-03]_토론하기 1. 아파트는 혼자 있는 곳이 아니라 사람들이 많이 이용 하는 곳입니다. 그러므로 한명이 피면 다른 사람까지 간접흡연을 하게되 하면 주민들이 피해를 봅니다. 그러므로 저는 아파트에서 담배 피는 것에 반대 합니다.")
 
@@ -66,25 +68,25 @@ if st.button("Submit") and user_input:
         
         # 응답 출력
         st.write("### Chat History")
-        #for res in response:
-        #    role = "User" if res.role == "user" else "Assistant"
-            # res.content로 접근하여 오류 해결
-        #    try:
-        #        st.write(f"**{role}:** {res.content}")
-        #    except AttributeError as e:
-        #        st.write(f"**{role}:** (응답을 처리할 수 없습니다. 오류: {str(e)})")
-    #except Exception as e:
-     #   st.error(f"알 수 없는 오류가 발생했습니다. 다시 시도해 주세요. 오류: {str(e)}")
-
-        # 응답 출력
-        st.write("### Chat History")
         for res in response:
             role = "User" if res.role == "user" else "Assistant"
-            message = res['content']
-            if role == "User":
-                st.markdown(f'<div class="user-message"><strong>{role}:</strong> {message}</div>', unsafe_allow_html=True)
-            else:
-                st.markdown(f'<div class="assistant-message"><strong>{role}:</strong> {message}</div>', unsafe_allow_html=True)
+            # res.content로 접근하여 오류 해결
+            try:
+                st.write(f"**{role}:** {res.content}")
+            except AttributeError as e:
+                st.write(f"**{role}:** (응답을 처리할 수 없습니다. 오류: {str(e)})")
+    except Exception as e:
+        st.error(f"알 수 없는 오류가 발생했습니다. 다시 시도해 주세요. 오류: {str(e)}")
 
-    except openai.OpenAIError as e:
-        st.error(f"An error occurred: {e}")
+        # 응답 출력
+        #st.write("### Chat History")
+        #for res in response:
+        #    role = "User" if res.role == "user" else "Assistant"
+        #    message = res['content']
+        #    if role == "User":
+        #        st.markdown(f'<div class="user-message"><strong>{role}:</strong> {message}</div>', unsafe_allow_html=True)
+        #    else:
+        #        st.markdown(f'<div class="assistant-message"><strong>{role}:</strong> {message}</div>', unsafe_allow_html=True)
+
+    #except openai.OpenAIError as e:
+    #    st.error(f"An error occurred: {e}")
