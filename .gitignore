@@ -155,6 +155,8 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+# .gitignore 파일에 .env 파일을 추가하여, 이 파일이 깃허브와 같은 소스 코드 관리 시스템에 업로드되지 않도록 합니다.
+.env
 
 # PyCharm
 #  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
