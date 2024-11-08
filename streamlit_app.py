@@ -18,7 +18,6 @@ if "logged_in" not in st.session_state:
     st.session_state["logged_in"] = False
     st.session_state["username"] = ""
     st.session_state["name"] = ""
-    st.session_state["login_successful"] = False
 
 # 로그인 함수
 def authenticate(username, password):
@@ -33,8 +32,8 @@ def login_screen():
     st.write("인가된 사용자만 접근 가능합니다. 미 인가자는 접속이 불가합니다. 무단 접속 시 법적 조치될 수 있습니다.")
 
     # 사용자 입력 받기
-    username = st.text_input("아이디를 입력하세요")
-    password = st.text_input("비밀번호를 입력하세요", type="password")
+    username = st.text_input("아이디를 입력하세요", key="username_input")
+    password = st.text_input("비밀번호를 입력하세요", type="password", key="password_input")
 
     # 로그인 버튼
     if st.button("로그인"):
@@ -46,7 +45,6 @@ def login_screen():
             st.session_state["logged_in"] = True
             st.session_state["username"] = username
             st.session_state["name"] = name
-            st.session_state["login_successful"] = True  # 로그인 성공 플래그 설정
             logging.info(f"{username} 로그인 성공")
             st.success(f"로그인 성공: 환영합니다, {name}님!")
         else:
@@ -59,11 +57,10 @@ def main_app():
     st.write(f"환영합니다, {st.session_state['name']}님!")
 
     # 로그아웃 버튼
-    if st.button("로그아웃"):
+    if st.button("로그아웃", key="logout_button"):
         st.session_state["logged_in"] = False
         st.session_state["username"] = ""
         st.session_state["name"] = ""
-        st.session_state["login_successful"] = False  # 로그인 성공 플래그 해제
 
     # 샘플 입력 안내
     st.subheader("샘플 입력 예시 1")
@@ -79,7 +76,7 @@ def main_app():
     ASSISTANT_ID = st.secrets["ASSISTANT_ID"]
 
     # 버튼 클릭 시 OpenAI API 호출
-    if st.button("채점하기") and user_input:
+    if st.button("채점하기", key="grading_button") and user_input:
         try:
             # 새 Thread 생성
             thread_id = openai.beta.threads.create().id
@@ -136,7 +133,3 @@ if st.session_state["logged_in"]:
     main_app()
 else:
     login_screen()
-
-# 로그인 성공 플래그가 설정되면 자동으로 화면 전환
-if st.session_state.get("login_successful"):
-    main_app()
