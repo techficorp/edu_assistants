@@ -18,6 +18,7 @@ if "logged_in" not in st.session_state:
     st.session_state["logged_in"] = False
     st.session_state["username"] = ""
     st.session_state["name"] = ""
+    st.session_state["login_successful"] = False
 
 # 로그인 함수
 def authenticate(username, password):
@@ -45,6 +46,7 @@ def login_screen():
             st.session_state["logged_in"] = True
             st.session_state["username"] = username
             st.session_state["name"] = name
+            st.session_state["login_successful"] = True  # 로그인 성공 플래그 설정
             logging.info(f"{username} 로그인 성공")
             st.success(f"로그인 성공: 환영합니다, {name}님!")
         else:
@@ -61,6 +63,7 @@ def main_app():
         st.session_state["logged_in"] = False
         st.session_state["username"] = ""
         st.session_state["name"] = ""
+        st.session_state["login_successful"] = False  # 로그인 성공 플래그 해제
 
     # 샘플 입력 안내
     st.subheader("샘플 입력 예시 1")
@@ -133,3 +136,7 @@ if st.session_state["logged_in"]:
     main_app()
 else:
     login_screen()
+
+# 로그인 성공 플래그가 설정되면 자동으로 화면 전환
+if st.session_state.get("login_successful"):
+    main_app()
