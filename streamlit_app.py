@@ -60,6 +60,13 @@ def login_screen():
 def main_app():
     st.title("초등학교 서술형 평가 문항 인공지능 자동 채점 서비스 개발 및 적용")
     st.write(f"환영합니다, {st.session_state['name']}님!")
+   st.write(f"만약, {st.session_state['name']}님이 아니라면 즉시 로그아웃 해주세요!")
+      # 로그아웃 버튼
+    if st.button("로그아웃"):
+        st.session_state["logged_in"] = False
+        st.session_state["username"] = ""
+        st.session_state["name"] = ""
+        st.experimental_rerun()  # 페이지 새로고침하여 로그인 화면으로 전환
 
     # 샘플 입력 안내
     st.subheader("샘플 입력 예시 1")
