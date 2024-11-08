@@ -1,9 +1,9 @@
 import streamlit as st
 import openai
 import time
-import json
+import os
 
-# OpenAI API 설정
+# Streamlit Secrets에서 API 키 로드
 openai.api_key = st.secrets["OPENAI_API_KEY"]
 ASSISTANT_ID = st.secrets["ASSISTANT_ID"]
 
@@ -43,29 +43,11 @@ def get_response(thread_id):
 # Streamlit 웹 페이지 구성
 st.title("OpenAI Assistants API Chatbot")
 st.write("Ask a question and get an answer from the assistant!")
+st.write("샘플입력값\n")
+st.write("[5단원][6국01-03]_토론하기 1. 아파트는 혼자 있는 곳이 아니라 사람들이 많이 이용 하는 곳입니다. 그러므로 한명이 피면 다른 사람까지 간접흡연을 하게되 하면 주민들이 피해를 봅니다. 그러므로 저는 아파트에서 담배 피는 것에 반대 합니다.")
 
 # 사용자 입력받기
 user_input = st.text_input("Enter your question:")
-
-# 스타일 추가
-st.markdown("""
-    <style>
-        .user-message, .assistant-message {
-            border-radius: 10px;
-            padding: 10px;
-            margin: 5px 0;
-            max-width: 600px;
-        }
-        .user-message {
-            background-color: #daf7a6;
-            text-align: left;
-        }
-        .assistant-message {
-            background-color: #f0e5ff;
-            text-align: left;
-        }
-    </style>
-""", unsafe_allow_html=True)
 
 # 버튼 클릭 시 OpenAI API 호출
 if st.button("Submit") and user_input:
@@ -82,6 +64,18 @@ if st.button("Submit") and user_input:
         # 응답 가져오기
         response = get_response(thread_id)
         
+        # 응답 출력
+        st.write("### Chat History")
+        #for res in response:
+        #    role = "User" if res.role == "user" else "Assistant"
+            # res.content로 접근하여 오류 해결
+        #    try:
+        #        st.write(f"**{role}:** {res.content}")
+        #    except AttributeError as e:
+        #        st.write(f"**{role}:** (응답을 처리할 수 없습니다. 오류: {str(e)})")
+    #except Exception as e:
+     #   st.error(f"알 수 없는 오류가 발생했습니다. 다시 시도해 주세요. 오류: {str(e)}")
+
         # 응답 출력
         st.write("### Chat History")
         for res in response:
