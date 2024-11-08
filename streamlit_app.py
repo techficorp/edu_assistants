@@ -72,13 +72,18 @@ if st.button("채점하기") and user_input:
         st.write("### 채점 결과")
         for res in response:
             role = "학생 응답" if res.role == "user" else "AI 채점"
-            message = res.content
 
+            # res.content가 리스트일 경우 처리
+            message_content = res.content
+            if isinstance(message_content, list):
+                # 리스트 항목을 줄바꿈으로 연결하여 텍스트로 변환
+                message_content = "\n".join(str(item) for item in message_content)
+            
             # 원래의 출력 내용을 로그에 남기기
-            logging.info(f"{role}: {message}")
+            logging.info(f"{role}: {message_content}")
 
             # HTML 형식으로 불필요한 정보 제거 후 출력
-            formatted_message = message.replace(", type='text'", "").replace("\n", "<br>")
+            formatted_message = message_content.replace(", type='text'", "").replace("\n", "<br>")
             st.markdown(f"<div style='padding: 10px; background-color: #f9f9f9; border-radius: 5px;'>"
                         f"<strong>{role}</strong><br>{formatted_message}</div>",
                         unsafe_allow_html=True)
