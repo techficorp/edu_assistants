@@ -26,8 +26,9 @@ def authenticate(username, password):
 
 # 로그인 화면
 def login_screen():
+    st.title("초등학교 서술형 평가 문항 인공지능 자동 채점 서비스 개발 및 적용")
     st.title("로그인 화면")
-
+    st.write("인가된 사용자만 접근 가능합니다, 미 인가자는 접속이 불가합니다. 무단 접속시 법적 조치 될수 있습니다.")
     # 사용자 입력 받기
     username = st.text_input("아이디를 입력하세요")
     password = st.text_input("비밀번호를 입력하세요", type="password")
