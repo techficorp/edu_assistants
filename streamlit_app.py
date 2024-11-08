@@ -8,9 +8,9 @@ logging.basicConfig(filename="login_attempts.log", level=logging.INFO, format="%
 
 # 미리 정의된 유저 데이터 (아이디, 비밀번호, 이름)
 USER_DATA = {
-    "eduass1": {"password": "password1!", "name": "백남정"},
-    "eduass2": {"password": "password2!", "name": "박정"},
-    "eduass3": {"password": "password3!", "name": "강신조"}
+    "eduass1": {"password": "password1", "name": "백남정"},
+    "eduass2": {"password": "password2", "name": "박정"},
+    "eduass3": {"password": "password3", "name": "강신조"}
 }
 
 # 세션 상태 초기화
@@ -21,7 +21,6 @@ if "logged_in" not in st.session_state:
 
 # 로그인 함수
 def authenticate(username, password):
-    # 입력한 아이디와 비밀번호가 USER_DATA에 있는지 확인
     if username in USER_DATA and USER_DATA[username]["password"] == password:
         return USER_DATA[username]["name"]
     return None
@@ -30,7 +29,7 @@ def authenticate(username, password):
 def login_screen():
     st.title("초등학교 서술형 평가 문항 인공지능 자동 채점 서비스 개발 및 적용")
     st.title("로그인 화면")
-    st.write("인가된 사용자만 접근 가능합니다, 미 인가자는 접속이 불가합니다. 무단 접속시 법적 조치 될수 있습니다.")
+    st.write("인가된 사용자만 접근 가능합니다. 미 인가자는 접속이 불가합니다. 무단 접속 시 법적 조치될 수 있습니다.")
 
     # 사용자 입력 받기
     username = st.text_input("아이디를 입력하세요")
@@ -38,7 +37,6 @@ def login_screen():
 
     # 로그인 버튼
     if st.button("로그인"):
-        # 로그인 시도 기록
         logging.info(f"{username} 로그인 시도")
         
         # 인증 확인
@@ -49,9 +47,6 @@ def login_screen():
             st.session_state["name"] = name
             logging.info(f"{username} 로그인 성공")
             st.success(f"로그인 성공: 환영합니다, {name}님!")
-
-           # 로그인 성공 후 페이지 전환을 위해 새로고침
-            st.experimental_rerun()
         else:
             st.error("로그인 실패: 아이디 또는 비밀번호가 올바르지 않습니다.")
             logging.info(f"{username} 로그인 실패")
@@ -60,13 +55,12 @@ def login_screen():
 def main_app():
     st.title("초등학교 서술형 평가 문항 인공지능 자동 채점 서비스 개발 및 적용")
     st.write(f"환영합니다, {st.session_state['name']}님!")
-    st.write(f"만약, {st.session_state['name']}님이 아니라면 즉시 로그아웃 해주세요!")
-      # 로그아웃 버튼
+
+    # 로그아웃 버튼
     if st.button("로그아웃"):
         st.session_state["logged_in"] = False
         st.session_state["username"] = ""
         st.session_state["name"] = ""
-        st.experimental_rerun()  # 페이지 새로고침하여 로그인 화면으로 전환
 
     # 샘플 입력 안내
     st.subheader("샘플 입력 예시 1")
@@ -120,7 +114,6 @@ def main_app():
                 # res.content가 리스트일 경우 처리
                 message_content = res.content
                 if isinstance(message_content, list):
-                    # 리스트 항목을 줄바꿈으로 연결하여 텍스트로 변환
                     message_content = "\n".join(str(item) for item in message_content)
                 
                 # 원래의 출력 내용을 로그에 남기기
