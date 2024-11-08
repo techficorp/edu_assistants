@@ -28,13 +28,13 @@ def authenticate(username, password):
 # 로그인 및 메인 화면
 def app_screen():
     st.title("초등학교 서술형 평가 문항 인공지능 자동 채점 서비스 개발 및 적용")
-    
+    st.write("*관련 문의:techficorp@gmail.com, 백남정 ")
     
     # 로그인되지 않은 경우 로그인 화면 표시
     if not st.session_state["logged_in"]:
         st.subheader("로그인 화면")
         st.write("인가된 사용자만 접근 가능합니다. 미 인가자는 접속이 불가합니다. 무단 접속 시 법적 조치될 수 있습니다.")
-        st.write("관련 문의:techficorp@gmail.com, 백남정, http://techfi.kr")
+        
         
         # 사용자 입력 받기
         username = st.text_input("아이디를 입력하세요", key="username_input")
