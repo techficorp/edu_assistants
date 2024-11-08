@@ -68,10 +68,10 @@ if st.button("Submit") and user_input:
         st.write("### Chat History")
         for res in response:
             role = "User" if res.role == "user" else "Assistant"
-            # 예외 처리를 통해 res가 예상 구조가 아닐 경우 기본 메시지 출력
+            # res.content로 접근하여 오류 해결
             try:
-                st.write(f"**{role}:** {res['content']}")
-            except KeyError as e:
+                st.write(f"**{role}:** {res.content}")
+            except AttributeError as e:
                 st.write(f"**{role}:** (응답을 처리할 수 없습니다. 오류: {str(e)})")
     except Exception as e:
         st.error(f"알 수 없는 오류가 발생했습니다. 다시 시도해 주세요. 오류: {str(e)}")
