@@ -8,9 +8,9 @@ logging.basicConfig(filename="login_attempts.log", level=logging.INFO, format="%
 
 # 미리 정의된 유저 데이터 (아이디, 비밀번호, 이름)
 USER_DATA = {
-    "eduass1": {"password": "password1", "name": "백남정"},
-    "eduass2": {"password": "password2", "name": "박정"},
-    "eduass3": {"password": "password3", "name": "강신조"}
+    "eduass1": {"password": "password1!", "name": "백남정"},
+    "eduass2": {"password": "password2!", "name": "박정"},
+    "eduass3": {"password": "password3!", "name": "강신조"}
 }
 
 # 세션 상태 초기화
@@ -49,6 +49,9 @@ def login_screen():
             st.session_state["name"] = name
             logging.info(f"{username} 로그인 성공")
             st.success(f"로그인 성공: 환영합니다, {name}님!")
+
+           # 로그인 성공 후 페이지 전환을 위해 새로고침
+            st.experimental_rerun()
         else:
             st.error("로그인 실패: 아이디 또는 비밀번호가 올바르지 않습니다.")
             logging.info(f"{username} 로그인 실패")
