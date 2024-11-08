@@ -8,9 +8,9 @@ logging.basicConfig(filename="login_attempts.log", level=logging.INFO, format="%
 
 # 미리 정의된 유저 데이터 (아이디, 비밀번호, 이름)
 USER_DATA = {
-    "eduass1": {"password": "password1!", "name": "백남정"},
-    "eduass2": {"password": "password2!", "name": "박정"},
-    "eduass3": {"password": "password3!", "name": "강신조"}
+    "eduass1": {"password": "password1", "name": "백남정"},
+    "eduass2": {"password": "password2", "name": "박정"},
+    "eduass3": {"password": "password3", "name": "강신조"}
 }
 
 # 세션 상태 초기화
