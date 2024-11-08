@@ -59,7 +59,7 @@ def get_response(thread_id):
 st.title("OpenAI Assistants API Chatbot")
 st.write("Ask a question and get an answer from the assistant!")
 st.write("샘플입력값\n")
-st.write("[5단원][6국01-03]_토론하기	"1. 아파트는 혼자 있는 곳이 아니라  사람들이 많이 이용 하는 곳입니다. 그러므로 한명이 피면 다른 사람까지 간접흡연을 하게되 하면  주민들이 피해를 봅니다. 그러므로 저는 아파트에서 담배 피는 것에 반대 합니다.")
+st.write("[5단원][6국01-03]_토론하기	1. 아파트는 혼자 있는 곳이 아니라  사람들이 많이 이용 하는 곳입니다. 그러므로 한명이 피면 다른 사람까지 간접흡연을 하게되 하면  주민들이 피해를 봅니다. 그러므로 저는 아파트에서 담배 피는 것에 반대 합니다.")
 
 # 사용자 입력받기
 user_input = st.text_input("Enter your question:")
