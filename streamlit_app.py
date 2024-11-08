@@ -11,6 +11,16 @@ import os
 openai.api_key = st.secrets["OPENAI_API_KEY"]
 ASSISTANT_ID = st.secrets["ASSISTANT_ID"]
 
+try:
+    # 간단한 API 호출 테스트 (모델 목록 가져오기)
+    models = openai.Model.list()
+    st.write("OpenAI API 연결 성공. 사용 가능한 모델 목록:")
+    st.write(models)
+except openai.error.AuthenticationError:
+    st.error("OpenAI API 인증 오류: API 키가 잘못되었거나 인증되지 않았습니다.")
+
+
+
 # OpenAI API 설정
 #openai.api_key = os.getenv("OPENAI_API_KEY")
 #ASSISTANT_ID = os.getenv("ASSISTANT_ID")
