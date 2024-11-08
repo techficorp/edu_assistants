@@ -1,6 +1,10 @@
 import streamlit as st
 import openai
 import time
+import logging
+
+# 로깅 설정
+logging.basicConfig(filename="output_log.log", level=logging.INFO, format="%(asctime)s - %(message)s")
 
 # OpenAI API 설정
 openai.api_key = st.secrets["OPENAI_API_KEY"]
@@ -47,7 +51,7 @@ st.subheader("샘플 입력 예시")
 st.write("[5단원][6국01-03]_토론하기 1. 아파트는 혼자 있는 곳이 아니라 사람들이 많이 이용하는 곳입니다. 그러므로 한명이 피면 다른 사람까지 간접흡연을 하게 되어 주민들이 피해를 봅니다. 그러므로 저는 아파트에서 담배 피는 것에 반대 합니다.")
 
 # 사용자 입력받기
-user_input = st.text_input("채점기준과 문항을 입력하세요:")
+user_input = st.text_input("문항을 입력하세요:")
 
 # 버튼 클릭 시 OpenAI API 호출
 if st.button("채점하기") and user_input:
@@ -67,13 +71,17 @@ if st.button("채점하기") and user_input:
         # 응답 출력
         st.write("### 채점 결과")
         for res in response:
-            role = "User" if res.role == "user" else "Assistant"
+            role = "학생 응답" if res.role == "user" else "AI 채점"
             message = res.content
-            # 역할에 따라 구분하여 표시
-            if role == "User":
-                st.markdown(f"**[학생 응답]**\n> {message}\n", unsafe_allow_html=True)
-            else:
-                st.markdown(f"**[AI 채점]**\n> {message}\n", unsafe_allow_html=True)
+
+            # 원래의 출력 내용을 로그에 남기기
+            logging.info(f"{role}: {message}")
+
+            # HTML 형식으로 불필요한 정보 제거 후 출력
+            formatted_message = message.replace(", type='text'", "").replace("\n", "<br>")
+            st.markdown(f"<div style='padding: 10px; background-color: #f9f9f9; border-radius: 5px;'>"
+                        f"<strong>{role}</strong><br>{formatted_message}</div>",
+                        unsafe_allow_html=True)
 
     except Exception as e:
         st.error(f"오류가 발생했습니다. 다시 시도해 주세요. 오류: {str(e)}")
