@@ -6,8 +6,10 @@ from dotenv import load_dotenv
 import os
 
 # .env 파일에서 환경 변수 로드
-#load_dotenv()
-
+load_dotenv()
+# Streamlit Secrets에서 API 키 로드
+openai.api_key = st.secrets["OPENAI_API_KEY"]
+ASSISTANT_ID = st.secrets["ASSISTANT_ID"]
 
 # OpenAI API 설정
 #openai.api_key = os.getenv("OPENAI_API_KEY")
@@ -21,9 +23,7 @@ import os
 #openai.api_key = "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"
 #ASSISTANT_ID = "asst_OAbaHNhxMb7SRkm6ep980FWv"
 
-# Streamlit Secrets에서 API 키 로드
-openai.api_key = st.secrets["OPENAI_API_KEY"]
-ASSISTANT_ID = st.secrets["ASSISTANT_ID"]
+
 
 #st.write("API Key:", os.getenv("OPENAI_API_KEY"))
 #st.write("Assistant ID:", os.getenv("ASSISTANT_ID"))
