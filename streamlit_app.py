@@ -65,7 +65,7 @@ if st.button("Submit") and user_input:
         response = get_response(thread_id)
         
         # 응답 출력
-         st.write("### Chat History")
+        st.write("### Chat History")
         for res in response:
             role = "User" if res.role == "user" else "Assistant"
             # 예외 처리를 통해 res가 예상 구조가 아닐 경우 기본 메시지 출력
