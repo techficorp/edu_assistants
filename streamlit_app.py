@@ -47,6 +47,8 @@ def login_screen():
             st.session_state["name"] = name
             logging.info(f"{username} 로그인 성공")
             st.success(f"로그인 성공: 환영합니다, {name}님!")
+            # 화면을 새로고침하여 main_app으로 전환
+            st.experimental_rerun()
         else:
             st.error("로그인 실패: 아이디 또는 비밀번호가 올바르지 않습니다.")
             logging.info(f"{username} 로그인 실패")
@@ -61,6 +63,7 @@ def main_app():
         st.session_state["logged_in"] = False
         st.session_state["username"] = ""
         st.session_state["name"] = ""
+        st.experimental_rerun()  # 로그아웃 후 로그인 화면으로 새로고침
 
     # 샘플 입력 안내
     st.subheader("샘플 입력 예시 1")
