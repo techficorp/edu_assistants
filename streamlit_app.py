@@ -18,17 +18,20 @@ if "logged_in" not in st.session_state:
     st.session_state["logged_in"] = False
     st.session_state["username"] = ""
     st.session_state["name"] = ""
+
 # 로그인 함수
 def authenticate(username, password):
-    if username in USER_DATA and USER_DATA[username] == password:
-        return True
-    return False
+    # 입력한 아이디와 비밀번호가 USER_DATA에 있는지 확인
+    if username in USER_DATA and USER_DATA[username]["password"] == password:
+        return USER_DATA[username]["name"]
+    return None
 
 # 로그인 화면
 def login_screen():
     st.title("초등학교 서술형 평가 문항 인공지능 자동 채점 서비스 개발 및 적용")
     st.title("로그인 화면")
     st.write("인가된 사용자만 접근 가능합니다, 미 인가자는 접속이 불가합니다. 무단 접속시 법적 조치 될수 있습니다.")
+
     # 사용자 입력 받기
     username = st.text_input("아이디를 입력하세요")
     password = st.text_input("비밀번호를 입력하세요", type="password")
@@ -39,9 +42,11 @@ def login_screen():
         logging.info(f"{username} 로그인 시도")
         
         # 인증 확인
-        if authenticate(username, password):
+        name = authenticate(username, password)
+        if name:
             st.session_state["logged_in"] = True
             st.session_state["username"] = username
+            st.session_state["name"] = name
             logging.info(f"{username} 로그인 성공")
             st.success(f"로그인 성공: 환영합니다, {name}님!")
         else:
@@ -51,7 +56,7 @@ def login_screen():
 # 메인 애플리케이션 화면
 def main_app():
     st.title("초등학교 서술형 평가 문항 인공지능 자동 채점 서비스 개발 및 적용")
-    st.write(f"환영합니다, {st.session_state['username']}님!")
+    st.write(f"환영합니다, {st.session_state['name']}님!")
 
     # 샘플 입력 안내
     st.subheader("샘플 입력 예시 1")
@@ -86,42 +91,4 @@ def main_app():
             # Run 상태 확인
             while run.status in ["queued", "in_progress"]:
                 run = openai.beta.threads.runs.retrieve(
-                    thread_id=thread_id,
-                    run_id=run.id
-                )
-                time.sleep(0.5)
-
-            # 응답 가져오기
-            response = openai.beta.threads.messages.list(
-                thread_id=thread_id,
-                order="asc"
-            ).data[-2:]
-
-            # 응답 출력
-            st.write("### 채점 결과")
-            for res in response:
-                role = "학생 응답" if res.role == "user" else "AI 채점"
-
-                # res.content가 리스트일 경우 처리
-                message_content = res.content
-                if isinstance(message_content, list):
-                    # 리스트 항목을 줄바꿈으로 연결하여 텍스트로 변환
-                    message_content = "\n".join(str(item) for item in message_content)
-                
-                # 원래의 출력 내용을 로그에 남기기
-                logging.info(f"{role}: {message_content}")
-
-                # HTML 형식으로 불필요한 정보 제거 후 출력
-                formatted_message = message_content.replace(", type='text'", "").replace("\n", "<br>")
-                st.markdown(f"<div style='padding: 10px; background-color: #f9f9f9; border-radius: 5px;'>"
-                            f"<strong>{role}</strong><br>{formatted_message}</div>",
-                            unsafe_allow_html=True)
-
-        except Exception as e:
-            st.error(f"오류가 발생했습니다. 다시 시도해 주세요. 오류: {str(e)}")
-
-# 세션 상태에 따라 화면 전환
-if st.session_state["logged_in"]:
-    main_app()
-else:
-    login_screen()
+                    th
