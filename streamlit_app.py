@@ -63,7 +63,6 @@ def app_screen():
             st.session_state["logged_in"] = False
             st.session_state["username"] = ""
             st.session_state["name"] = ""
-            st.experimental_rerun()
         
         # 샘플 입력 안내
         st.subheader("샘플 입력 예시 1")
