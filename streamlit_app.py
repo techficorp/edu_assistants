@@ -14,8 +14,8 @@ ASSISTANT_ID = st.secrets["ASSISTANT_ID"]
 try:
     # 간단한 API 호출 테스트 (예: 모델 목록 가져오기)
     models = openai.Model.list()
-    st.write("OpenAI API 연결 성공. 사용 가능한 모델 목록:")
-    st.write(models)
+    #st.write("OpenAI API 연결 성공. 사용 가능한 모델 목록:")
+    #st.write(models)
 except openai.OpenAIError as e:  # 모든 OpenAI API 오류를 포괄하는 예외 처리
     st.error(f"OpenAI API 오류 발생: {str(e)}")
 
