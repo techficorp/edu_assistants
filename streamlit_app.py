@@ -6,18 +6,18 @@ import logging
 # 로깅 설정
 logging.basicConfig(filename="login_attempts.log", level=logging.INFO, format="%(asctime)s - ID: %(message)s")
 
-# 미리 정의된 유저 데이터 (아이디와 비밀번호)
+# 미리 정의된 유저 데이터 (아이디, 비밀번호, 이름)
 USER_DATA = {
-    "eduass1": "eduass!@",
-    "eduass2": "eduass!@#",
-    "eduass2": "eduass!@$",
+    "eduass1": {"password": "password1#$", "name": "백남정"},
+    "eduass2": {"password": "password2#$", "name": "박정"},
+    "eduass3": {"password": "password3#$", "name": "강신조"}
 }
 
 # 세션 상태 초기화
 if "logged_in" not in st.session_state:
     st.session_state["logged_in"] = False
     st.session_state["username"] = ""
-
+    st.session_state["name"] = ""
 # 로그인 함수
 def authenticate(username, password):
     if username in USER_DATA and USER_DATA[username] == password:
@@ -42,7 +42,7 @@ def login_screen():
             st.session_state["logged_in"] = True
             st.session_state["username"] = username
             logging.info(f"{username} 로그인 성공")
-            st.success(f"로그인 성공: 환영합니다, {username}님!")
+            st.success(f"로그인 성공: 환영합니다, {name}님!")
         else:
             st.error("로그인 실패: 아이디 또는 비밀번호가 올바르지 않습니다.")
             logging.info(f"{username} 로그인 실패")
