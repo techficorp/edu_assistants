@@ -60,7 +60,7 @@ def login_screen():
 def main_app():
     st.title("초등학교 서술형 평가 문항 인공지능 자동 채점 서비스 개발 및 적용")
     st.write(f"환영합니다, {st.session_state['name']}님!")
-   st.write(f"만약, {st.session_state['name']}님이 아니라면 즉시 로그아웃 해주세요!")
+    st.write(f"만약, {st.session_state['name']}님이 아니라면 즉시 로그아웃 해주세요!")
       # 로그아웃 버튼
     if st.button("로그아웃"):
         st.session_state["logged_in"] = False
