@@ -9,6 +9,7 @@ logging.basicConfig(filename="login_attempts.log", level=logging.INFO, format="%
 # 미리 정의된 유저 데이터 (아이디, 비밀번호, 이름)
 USER_DATA = {
     "supered1": {"password": "supered1!", "name": "백남정"},
+    "supered": {"password": "supered2!", "name": "백동재관리"},
     "supered2": {"password": "supered2!", "name": "박정"},
     "supered3": {"password": "supered3!", "name": "강신조"}
 }
