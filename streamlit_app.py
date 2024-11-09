@@ -4,7 +4,7 @@ import time
 import logging
 
 # 로깅 설정
-logging.basicConfig(filename="login_attempts.log", level=logging.INFO, format="%(asctime)s - ID: %(message)s")
+logging.basicConfig(filename="login_attempts.log", level=logging.INFO, format="%(asctime)s - %(message)s")
 
 # 미리 정의된 유저 데이터 (아이디, 비밀번호, 이름)
 USER_DATA = {
@@ -111,7 +111,7 @@ def app_screen():
                     order="asc"
                 ).data
                 
-                # 응답 출력
+                # 응답 출력 및 로그 기록
                 st.write("### 채점 결과")
                 for res in response:
                     role = "학생 응답" if res.role == "user" else "AI 채점"
@@ -122,8 +122,8 @@ def app_screen():
                     else:
                         message_content = res.content
 
-                    # 원래의 출력 내용을 로그에 남기기
-                    logging.info(f"{role}: {message_content}")
+                    # 로그에 기록 (개행 포함)
+                    logging.info(f"{role}: {message_content.replace('\\n', '\n')}")
                     
                     # HTML 형식으로 불필요한 정보 제거 후 출력
                     formatted_message = message_content.replace(", type='text'", "").replace("\n", "<br>")
