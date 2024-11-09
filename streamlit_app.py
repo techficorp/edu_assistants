@@ -122,8 +122,11 @@ def app_screen():
                     else:
                         message_content = res.content
 
-                    # 로그에 기록 (개행 포함)
-                    logging.info(f"{role}: {message_content.replace('\\n', '\n')}")
+                    # 개행 문자 변환
+                    log_message = message_content.replace("\\n", "\n")
+                    
+                    # 로그에 기록
+                    logging.info(f"{role}: {log_message}")
                     
                     # HTML 형식으로 불필요한 정보 제거 후 출력
                     formatted_message = message_content.replace(", type='text'", "").replace("\n", "<br>")
