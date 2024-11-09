@@ -2,6 +2,7 @@ import streamlit as st
 import openai
 import time
 import logging
+from openai.error import RateLimitError
 
 # 로깅 설정
 logging.basicConfig(filename="login_attempts.log", level=logging.INFO, format="%(asctime)s - %(message)s")
@@ -134,6 +135,10 @@ def app_screen():
                                 f"<strong>{role}</strong><br>{formatted_message}</div>",
                                 unsafe_allow_html=True)
             
+            except RateLimitError:
+                st.error("API 사용량 제한이 초과되었습니다. 잠시 후 다시 시도해 주세요.")
+                logging.error("Rate limit exceeded. Waiting to retry...")
+                time.sleep(2)  # 일정 시간 대기 후 재시도
             except Exception as e:
                 st.error(f"오류가 발생했습니다. 다시 시도해 주세요. 오류: {str(e)}")
 
