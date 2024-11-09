@@ -9,7 +9,7 @@ logging.basicConfig(filename="login_attempts.log", level=logging.INFO, format="%
 # 미리 정의된 유저 데이터 (아이디, 비밀번호, 이름)
 USER_DATA = {
     "supered1": {"password": "supered1!", "name": "백남정"},
-    "supered": {"password": "supered2!", "name": "백동재관리"},
+    "supered": {"password": "supered2!", "name": "백동재관리자"},
     "supered2": {"password": "supered2!", "name": "박정"},
     "supered3": {"password": "supered3!", "name": "강신조"}
 }
@@ -35,7 +35,6 @@ def app_screen():
     if not st.session_state["logged_in"]:
         st.subheader("로그인 화면")
         st.write("인가된 사용자만 접근 가능합니다. 미 인가자는 접속이 불가합니다. 무단 접속 시 법적 조치될 수 있습니다.")
-        
         
         # 사용자 입력 받기
         username = st.text_input("아이디를 입력하세요", key="username_input")
@@ -110,7 +109,7 @@ def app_screen():
                 response = openai.beta.threads.messages.list(
                     thread_id=thread_id,
                     order="asc"
-                ).data[-2:]
+                ).data
                 
                 # 응답 출력
                 st.write("### 채점 결과")
