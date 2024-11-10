@@ -28,7 +28,7 @@ def authenticate(username, password):
 
 # 로그인 및 메인 화면
 def app_screen():
-    st.title("초등학교 서술형 평가 문항 인공지능 자동 채점 서비스 개발 및 적용")
+    st.title("초등학교 서술형 평가 문항 인공지능 자동 채점 서비스 개발 및 적용 V1.6")
     st.write("*관련 문의: jay7math@gmail.com, 백동재, techficorp@gmail.com, 백남정 ")
     
     # 로그인되지 않은 경우 로그인 화면 표시
