@@ -91,7 +91,8 @@ def app_screen():
                 openai.beta.threads.messages.create(
                     thread_id=thread_id,
                     role="user",
-                    content="평가기준:"+user_input_standard+"학생답안:"user_input_answer:
+                    #content="평가기준:"+user_input_standard+"학생답안:"user_input_answer:
+                    content="평가기준:" + user_input_standard + " 학생답안:" + user_input_answer
                 )
                 run = openai.beta.threads.runs.create(
                     thread_id=thread_id,
