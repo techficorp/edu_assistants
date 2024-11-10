@@ -70,6 +70,73 @@ def app_screen():
         
         # 샘플 입력 안내
         st.subheader("샘플 입력 예시 1")
-        st.write("[5단원][6국01-03]_토론하기 \n 1. 아파트는 혼자 있는 곳이 아니라 사람들이 많이 이용하는 곳입니다. 그러므로 한명이 피면 다른 사람까지 간접흡연을 하게 되어 주민들이 피해를 봅니다. 그러므로 저는 아파트에서 담배 피는 것에 반대 합니다.")
+        st.write("[5단원][6국01-03]_토론하기 \n"
+                 "1. 아파트는 혼자 있는 곳이 아니라 사람들이 많이 이용하는 곳입니다. "
+                 "그러므로 한명이 피면 다른 사람까지 간접흡연을 하게 되어 주민들이 피해를 봅니다. "
+                 "그러므로 저는 아파트에서 담배 피는 것에 반대 합니다.")
+        
         st.subheader("샘플 입력 예시 2")
-        st.write("[7단원][6국03-05]_기행문_쓰기 \n  일상생활에서의 토의 주제 1.학급에서 회장과 반장을 어떻게 뽑을 것인가? 2.우리반 안전 수칙을 어떻게 정할 것인가? 학습상황에서의 토의 주제 1.도덕시간때 더 예의 있게
+        st.write("[7단원][6국03-05]_기행문_쓰기 \n"
+                 "일상생활에서의 토의 주제 1. 학급에서 회장과 반장을 어떻게 뽑을 것인가? "
+                 "2. 우리반 안전 수칙을 어떻게 정할 것인가? 학습상황에서의 토의 주제 "
+                 "1. 도덕시간 때 더 예의 있게 말할 것인가? 2. 수업시간 때에 떠들지 않을 것인가?")
+        
+        # 사용자 입력받기
+        user_input_answer = st.text_input("평가기준과 주관식 답안을 입력하세요:")
+        
+        # OpenAI API 설정
+        openai.api_key = st.secrets["OPENAI_API_KEY"]
+        ASSISTANT_ID = st.secrets["ASSISTANT_ID"]
+        
+        # 버튼 클릭 시 OpenAI API 호출
+        if st.button("채점하기", key="grading_button") and user_input_answer:
+            try:
+                # 새 Thread 생성
+                thread_id = openai.beta.threads.create().id
+                
+                # 메시지 전송 및 Run 실행
+                openai.beta.threads.messages.create(
+                    thread_id=thread_id,
+                    role="user",
+                    content=user_input_answer
+                )
+                run = openai.beta.threads.runs.create(
+                    thread_id=thread_id,
+                    assistant_id=ASSISTANT_ID
+                )
+                
+                # Run 상태 확인
+                while run.status in ["queued", "in_progress"]:
+                    run = openai.beta.threads.runs.retrieve(
+                        thread_id=thread_id,
+                        run_id=run.id
+                    )
+                    time.sleep(0.5)
+                
+                # 응답 가져오기
+                response = openai.beta.threads.messages.list(
+                    thread_id=thread_id,
+                    order="asc"
+                ).data
+                
+                # 응답 출력 및 로그 기록
+                st.write("### 채점 결과")
+                for res in response:
+                    # 불필요한 텍스트 패턴 제거
+                    message_content = re.sub(r"TextContentBlock\(text=Text\(annotations=\[\], value='|'|\\n", "", res.content)
+                    
+                    # 로그에 원본 메시지 기록
+                    logging.info(f"채점 결과 (원본): {res.content}")
+                    
+                    # 결과 출력 (HTML 개행 적용)
+                    formatted_message = message_content.replace("\n", "<br>")
+                    st.markdown(f"<div style='padding: 10px; background-color: #f9f9f9; border-radius: 5px;'>"
+                                f"<strong>{'학생 응답' if res.role == 'user' else 'AI 채점'}</strong><br>{formatted_message}</div>",
+                                unsafe_allow_html=True)
+            
+            except Exception as e:
+                st.error("API 사용량 제한이 초과되었거나 기타 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.")
+                logging.error(f"API 오류 발생: {str(e)}")
+
+# 실행
+app_screen()
