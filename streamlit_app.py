@@ -74,8 +74,8 @@ def app_screen():
         st.write("[7단원][6국03-05]_기행문_쓰기 \n  일상생활에서의 토의 주제 1.학급에서 회장과 반장을 어떻게 뽑을 것인가? 2.우리반 안전 수칙을 어떻게 정할 것인가? 학습상황에서의 토의 주제 1.도덕시간때 더 예의 있게 말할 것인가? 2.수업시간 때에 떠들지 않을 것인가?")
         
         # 사용자 입력받기
-        user_input_standard = st.text_input("평가기준 입력하세요:")
-        user_input_answer = st.text_input("주관식 답안을 입력하세요:")
+        #user_input_standard = st.text_input("평가기준 입력하세요:")
+        user_input_answer = st.text_input("평가기준과 주관식 답안을 입력하세요:")
         
         # OpenAI API 설정
         openai.api_key = st.secrets["OPENAI_API_KEY"]
@@ -91,8 +91,9 @@ def app_screen():
                 openai.beta.threads.messages.create(
                     thread_id=thread_id,
                     role="user",
+                    content=user_input_answer:
                     #content="평가기준:"+user_input_standard+"학생답안:"user_input_answer:
-                    content="평가기준:" + user_input_standard + " 학생답안:" + user_input_answer
+                    #content="채점기준:" + user_input_standard + " 학생답안:" + user_input_answer
                 )
                 run = openai.beta.threads.runs.create(
                     thread_id=thread_id,
