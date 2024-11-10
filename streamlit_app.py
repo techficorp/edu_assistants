@@ -2,6 +2,7 @@ import streamlit as st
 import openai
 import time
 import logging
+import re  # TextContentBlock 등의 불필요한 텍스트 제거에 사용
 
 # 로깅 설정
 logging.basicConfig(filename="login_attempts.log", level=logging.INFO, format="%(asctime)s - %(message)s")
@@ -114,24 +115,16 @@ def app_screen():
                 # 응답 출력 및 로그 기록
                 st.write("### 채점 결과")
                 for res in response:
-                    role = "학생 응답" if res.role == "user" else "AI 채점"
+                    # 불필요한 텍스트 패턴 제거
+                    message_content = re.sub(r"TextContentBlock\(text=Text\(annotations=\[\], value='|'|\\n", "", res.content)
                     
-                    # res.content가 리스트일 경우 처리
-                    if isinstance(res.content, list):
-                        message_content = "\n".join(str(item) for item in res.content)
-                    else:
-                        message_content = res.content
-
-                    # 개행 문자 변환
-                    log_message = message_content.replace("\\n", "\n")
+                    # 로그에 원본 메시지 기록
+                    logging.info(f"채점 결과 (원본): {res.content}")
                     
-                    # 로그에 기록
-                    logging.info(f"{role}: {log_message}")
-                    
-                    # HTML 형식으로 불필요한 정보 제거 후 출력
-                    formatted_message = message_content.replace(", type='text'", "").replace("\n", "<br>")
+                    # 결과 출력 (HTML 개행 적용)
+                    formatted_message = message_content.replace("\n", "<br>")
                     st.markdown(f"<div style='padding: 10px; background-color: #f9f9f9; border-radius: 5px;'>"
-                                f"<strong>{role}</strong><br>{formatted_message}</div>",
+                                f"<strong>{'학생 응답' if res.role == 'user' else 'AI 채점'}</strong><br>{formatted_message}</div>",
                                 unsafe_allow_html=True)
             
             except openai.error.OpenAIError as e:
