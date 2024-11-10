@@ -11,7 +11,7 @@ USER_DATA = {
     "supered1": {"password": "supered1!", "name": "백남정"},
     "supered": {"password": "supered2!", "name": "백동재관리자"},
     "supered2": {"password": "supered2!", "name": "박정"},
-    "supered3": {"password": "supered3!", "name": "강신조"}
+    "ksj8639": {"password": "test12", "name": "강신조"}
 }
 
 # 세션 상태 초기화
