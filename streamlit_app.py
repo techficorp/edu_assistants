@@ -40,7 +40,7 @@ def get_response(thread_id):
     return messages
 
 # Streamlit 웹 페이지 구성
-st.title("초등학교 서술형 평가 문항 인공지능 자동 채점 서비스 개발 및 적용")
+st.title("초등학교 서술형 평가 문항 인공지능 자동 채점 서비스 개발 및 적용 V1.7")
 
 # 샘플 입력 안내
 st.subheader("샘플 입력 예시")
@@ -71,9 +71,12 @@ if st.button("채점하기") and user_input:
             message = res.content
             # 역할에 따라 구분하여 표시
             if role == "User":
-                st.markdown(f"**[학생 응답]**\n> {message}\n", unsafe_allow_html=True)
+                #st.markdown(f"**[학생 응답]**\n> {message}\n", unsafe_allow_html=True)
+            #else:
+             #   st.markdown(f"**[AI 채점]**\n> {message}\n", unsafe_allow_html=True)
+                   st.write(f"**[{role}]**\n> {message}\n")
             else:
-                st.markdown(f"**[AI 채점]**\n> {message}\n", unsafe_allow_html=True)
+                st.write(f"**[{role}]**\n> {message}\n")
 
     except Exception as e:
         st.error(f"오류가 발생했습니다. 다시 시도해 주세요. 오류: {str(e)}")
