@@ -135,8 +135,9 @@ def app_screen():
                                 unsafe_allow_html=True)
             
             except Exception as e:
-                # st.error("API 사용량 제한이 초과되었거나 기타 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.")
-                st.error(f"API 사용량 제한이 초과되었거나 기타 오류가 발생했습니다.  잠시 후 다시 시도해 주세요. \n 오류 내용: {str(e)}")
+                # 오류 메시지를 사용자에게 표시 (개행 추가)
+                st.markdown(f"<div style='color: red;'>API 사용량 제한이 초과되었거나 기타 오류가 발생했습니다.<br>오류 내용: {str(e)}</div>",
+                            unsafe_allow_html=True)
                 logging.error(f"API 오류 발생: {str(e)}")
 
 # 실행
