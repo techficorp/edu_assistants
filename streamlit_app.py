@@ -71,12 +71,9 @@ if st.button("채점하기") and user_input:
             message = res.content
             # 역할에 따라 구분하여 표시
             if role == "User":
-                #st.markdown(f"**[학생 응답]**\n> {message}\n", unsafe_allow_html=True)
-            #else:
-             #   st.markdown(f"**[AI 채점]**\n> {message}\n", unsafe_allow_html=True)
-                   st.write(f"**[{role}]**\n> {message}\n")
+                st.markdown(f"**[학생 답안]**\n> {message}\n", unsafe_allow_html=True)
             else:
-                st.write(f"**[{role}]**\n> {message}\n")
+                st.markdown(f"**[AI 채점]**\n> {message}\n", unsafe_allow_html=True)
 
     except Exception as e:
         st.error(f"오류가 발생했습니다. 다시 시도해 주세요. 오류: {str(e)}")
