@@ -134,7 +134,7 @@ def app_screen():
                     # 결과 출력 (HTML 개행 적용)
                     formatted_message = message_content.replace("\n", "<br>")
                     st.markdown(f"<div style='padding: 10px; background-color: #f9f9f9; border-radius: 5px;'>"
-                                f"<strong>{'학생 응답' if res.role == 'user' else 'AI 채점'}</strong><br>{formatted_message}</div>",
+                                f"<strong>{'학생 주관식 답안' if res.role == 'user' else 'AI 채점'}</strong><br>{formatted_message}</div>",
                                 unsafe_allow_html=True)
             
             except Exception as e:
