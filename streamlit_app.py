@@ -124,7 +124,8 @@ def app_screen():
                 for res in response:
                     # 메시지 내용 추출
                     message_content = res.content[0].text.value if res.content else ""
-                    
+
+                    st.write("message_content \n"+message_content)
                     # 불필요한 텍스트 패턴 제거
                     message_content = re.sub(r"TextContentBlock\(text=Text\(annotations=\[\], value='|'|\\n", "", message_content)
                     
