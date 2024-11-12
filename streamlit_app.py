@@ -2,7 +2,7 @@ import streamlit as st
 import openai
 import time
 import logging
-import re  # 불필요한 텍스트 제거에 사용
+import re
 
 # 로깅 설정
 logging.basicConfig(filename="login_attempts.log", level=logging.INFO, format="%(asctime)s - %(message)s")
@@ -122,11 +122,14 @@ def app_screen():
                 # 응답 출력 및 로그 기록
                 st.write("### 채점 결과")
                 for res in response:
+                    # 메시지 내용 추출
+                    message_content = res.content[0].text.value if res.content else ""
+                    
                     # 불필요한 텍스트 패턴 제거
-                    message_content = re.sub(r"TextContentBlock\(text=Text\(annotations=\[\], value='|'|\\n", "", res.content)
+                    message_content = re.sub(r"TextContentBlock\(text=Text\(annotations=\[\], value='|'|\\n", "", message_content)
                     
                     # 로그에 원본 메시지 기록
-                    logging.info(f"채점 결과 (원본): {res.content}")
+                    logging.info(f"채점 결과 (원본): {message_content}")
                     
                     # 결과 출력 (HTML 개행 적용)
                     formatted_message = message_content.replace("\n", "<br>")
